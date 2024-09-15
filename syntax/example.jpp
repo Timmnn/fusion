@@ -1,0 +1,98 @@
+// Comments start with '//'
+
+/*
+Multiline Comments
+start with '/*' and end with 
+*/
+
+// Variables
+// Variables are immutable by default
+// Semicolons are optional
+int x = 5;
+// x = 10 would fail because x is immutable;
+
+mut int y = 10;
+// y = 20 would work
+
+// Arrays work the way you would expect;
+
+int[] arr = [1,2,3]
+
+// Functions
+int add(a: int, b: int){
+   return a+b;
+}
+
+void print(msg: string){
+   log(msg)
+}
+
+// Functions are just like variables which means they have a type and can be assigned to variables or passed to other Functions
+// Anonymous Functions
+
+void func_that_takes_callback(callback: (string)=>int){
+   int num = callback("hi")
+}
+
+// You can define types
+
+type NewInteger = int;
+// Unions
+
+type Number = int | float;
+type StringBool = "yes" | "no";
+
+// String interpolations
+
+string name = "Timm"
+log("Hi {name}")
+//TODO: Test
+
+// infered types
+x = "Hi" // -> string x = "Hi"
+// redeclaration
+int x = 10 // x is now an int
+
+// Errors as values
+
+type Error = string;
+
+Error err = "This is an error";
+
+// throw error
+fatal(err)
+
+// functions return value and error 
+
+int? unsafeAdd(a:int, b:int){
+   if(random()>0.5){
+      return "Adding Failed"
+   }
+
+   return a+b
+}
+
+maybeErr = unsafeAdd(5,10)
+if(maybeErr){
+   log("An error happened")
+}
+
+
+// Objects
+
+type Vector2 = {
+   a: int,
+   b: int
+}
+
+Vector vec = {
+   a: 10,
+   b: 20
+}
+
+// adding keys to an object automatically changes its type
+vec.c = 20
+// new type of vec {a:int, b:int, c:int}
+
+
+// makros

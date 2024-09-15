@@ -1,0 +1,44 @@
+// Top-level rule for a program consisting of multiple statements
+program = { SOI ~ (statement)* ~ EOI }
+
+// A statement can be a declaration, assignment, expression, or if_statement
+statement = { (declaration | assignment | expression) ~ ";" | if_statement }
+
+// Declarations with type and identifier, no assignment
+declaration = { type ~ identifier }
+
+// Assignments with an identifier and an expression
+assignment = { identifier ~ "=" ~ expression }
+
+// If statement with optional else block
+if_statement = { "if" ~ boolean_expression ~ block ~ ( "else" ~ block )? }
+
+// Block of statements enclosed in curly braces
+block = { "{" ~ (statement)* ~ "}" }
+
+// Boolean expression with comparison (e.g., a > b)
+boolean_expression = { expression ~ (">" | "<" | ">=" | "<=" | "!=") ~ expression }
+
+// Expressions include numbers, identifiers, function calls, or string literals
+expression = { function_call | number | identifier | string_literal }
+
+// Function call with an identifier followed by parentheses containing optional parameters
+function_call = { identifier ~ "(" ~ (params_list)? ~ ")" }
+
+// Parameters list for function calls, which are expressions separated by commas
+params_list = { expression ~ ("," ~ expression)* }
+
+// String literals enclosed in double quotes
+string_literal = _{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
+
+// Numeric literals
+number = @{ ASCII_DIGIT+ }
+
+// Identifiers must start with an alphabetic character or underscore, followed by alphanumeric characters or underscores
+identifier = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
+
+// Data types (e.g., int, float)
+type = { "int" | "float" }
+
+// Whitespace to be skipped
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
