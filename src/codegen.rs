@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, fmt::format};
+use std::fmt::format;
 
 use crate::lang_parser::{JPPParser, Rule};
 use pest::iterators::Pair;
@@ -60,6 +60,9 @@ fn walk_statement(statement: Pair<Rule>) -> String {
             Rule::if_statement => {
                 return walk_if_statement(child);
             }
+            Rule::while_loop => {
+                return walk_while_loop(child);
+            }
             _ => panic!("Invalid Node in statement: {:?}", child.as_rule()),
         }
     }
@@ -77,14 +80,38 @@ fn walk_if_statement(if_statement: Pair<Rule>) -> String {
     let block = inner_pairs.next().unwrap();
 
     return format!(
-        "if({}){}",
-        walk_binary_expression(binary_expression),
+        "if({}){{{}}}",
+        walk_boolean_expression(binary_expression),
         walk_block(block)
     );
 }
 
-fn walk_binary_expression(binary_expression: Pair<Rule>) -> String {
-    return String::new();
+fn walk_while_loop(while_loop: Pair<Rule>) -> String {
+    let code: String;
+
+    let mut inner_pairs = while_loop.into_inner();
+
+    let binary_expression = inner_pairs.next().unwrap();
+
+    let block = inner_pairs.next().unwrap();
+
+    return format!(
+        "while({}){{{}}}",
+        walk_boolean_expression(binary_expression),
+        walk_block(block)
+    );
+}
+fn walk_boolean_expression(boolean_expression: Pair<Rule>) -> String {
+    let mut inner_pairs = boolean_expression.into_inner();
+
+    let left_side = inner_pairs.next().unwrap();
+    let right_side = inner_pairs.next().unwrap();
+
+    return format!(
+        "{} > {}",
+        walk_expression(left_side),
+        walk_expression(right_side),
+    );
 }
 
 fn walk_block(block: Pair<Rule>) -> String {

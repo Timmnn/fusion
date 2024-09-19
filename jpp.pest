@@ -2,7 +2,7 @@
 program = { SOI ~ (statement)* ~ EOI }
 
 // A statement can be a declaration, assignment, expression, or if_statement
-statement = { (declaration | assignment | expression) ~ ";" | if_statement }
+statement = { (declaration | assignment | expression) ~ ";" | if_statement | while_loop }
 
 // Declarations with type and identifier, no assignment
 declaration = { type ~ identifier }
@@ -12,6 +12,8 @@ assignment = { identifier ~ "=" ~ expression }
 
 // If statement with optional else block
 if_statement = { "if" ~ boolean_expression ~ block ~ ( "else" ~ block )? }
+
+while_loop = { "while" ~ boolean_expression ~ block  }
 
 // Block of statements enclosed in curly braces
 block = { "{" ~ (statement)* ~ "}" }
