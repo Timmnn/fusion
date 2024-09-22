@@ -1,4 +1,5 @@
 use core::panic;
+use std::borrow::Borrow;
 use std::io;
 
 use std::fs;
@@ -77,7 +78,7 @@ fn compile_c_code(c_code: String, file_path: String) {
 
     let file_name = file_path.split("/").last().unwrap();
 
-    let c_file_path = file_name.to_string() + ".c";
+    let c_file_path = "out/".to_owned() + file_name + ".c";
     let mut c_file = File::create(c_file_path.clone()).expect("Failed to create C file.");
 
     c_file
@@ -86,12 +87,12 @@ fn compile_c_code(c_code: String, file_path: String) {
 
     // Step 3: Compile the C code using GCC
 
-    let binary_name = file_name.replace(".jpp", "");
+    let binary_path = "out/".to_owned() + &file_name.replace(".jpp", "");
 
     let output = Command::new("gcc")
         .arg(c_file_path)
         .arg("-o") // Specify the output binary file
-        .arg(binary_name) // Output binary will be named "program"
+        .arg(binary_path) // Output binary will be named "program"
         .output() // Run the command and capture output
         .expect("Failed to execute gcc");
 

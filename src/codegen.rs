@@ -105,11 +105,13 @@ fn walk_boolean_expression(boolean_expression: Pair<Rule>) -> String {
     let mut inner_pairs = boolean_expression.into_inner();
 
     let left_side = inner_pairs.next().unwrap();
+    let comparison = inner_pairs.next().unwrap();
     let right_side = inner_pairs.next().unwrap();
 
     return format!(
-        "{} > {}",
+        "{} {} {}",
         walk_expression(left_side),
+        walk_number_comparison(comparison),
         walk_expression(right_side),
     );
 }
@@ -125,6 +127,10 @@ fn walk_block(block: Pair<Rule>) -> String {
     }
 
     return code;
+}
+
+fn walk_number_comparison(comparison: Pair<Rule>) -> String {
+    return comparison.as_str().to_string();
 }
 
 fn walk_assignment(assignment: Pair<Rule>) -> String {

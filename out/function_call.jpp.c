@@ -1,0 +1,9 @@
+#include <stdio.h>
+int main() {
+int x;
+x = 99;
+if(x > 0){printf("%d\n", x);}
+while(x < 100){printf("%d\n", x);x = 200;}
+
+return 0;
+}

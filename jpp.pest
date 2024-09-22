@@ -19,7 +19,9 @@ while_loop = { "while" ~ boolean_expression ~ block  }
 block = { "{" ~ (statement)* ~ "}" }
 
 // Boolean expression with comparison (e.g., a > b)
-boolean_expression = { expression ~ (">" | "<" | ">=" | "<=" | "!=") ~ expression }
+boolean_expression = { expression ~ number_comparison ~ expression }
+
+number_comparison = {  ">" | "<" | ">=" | "<=" | "!="}
 
 // Expressions include numbers, identifiers, function calls, or string literals
 expression = { function_call | number | identifier | string_literal }
